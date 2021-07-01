@@ -21,9 +21,9 @@ from .exceptions import DysonNotLoggedException
 
 _LOGGER = logging.getLogger(__name__)
 
-DYSON_API_URL = "appapi.cp.dyson.com"
-DYSON_API_URL_CN = "appapi.cp.dyson.cn"
-DYSON_API_USER_AGENT = "DysonLink/29019 CFNetwork/1188 Darwin/20.0.0"
+DYSON_API_URL = "appapi.dyson.com"
+DYSON_API_URL_CN = "appapi.dyson.cn"
+DYSON_API_USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36"
 
 
 class DysonAccount:
@@ -54,12 +54,11 @@ class DysonAccount:
                       "dyson are using a self signed certificate.")
 
         request_body = {
-            "Email": self._email,
-            "Password": self._password
+            "email": self._email,
+            "password": self._password
         }
         login = requests.post(
-            "https://{0}/v1/userregistration/authenticate?country={1}".format(
-                self._dyson_api_url, self._country),
+            "https://{0}/apiman-gateway/dyson/session/1.0/login".format(self._dyson_api_url),
             headers=self._headers,
             data=request_body,
             verify=False
